@@ -1,0 +1,10 @@
+{
+  "name": "authorkit-bookshelf",
+  "version": "1.0.0",
+  "description": "AuthorKit Bookshelf - Discover books from indie authors",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  }
+}
