@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuthorKit Bookshelf - Discover Books by Indie Authors</title>
+    <meta name="description" content="Browse books from self-publishing authors powered by AuthorKit. Discover your next great read from independent authors.">
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="stylesheet" href="/css/bookshelf.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <img src="/images/logo-authorkit.svg" alt="AuthorKit">
+                </a>
+                <nav class="main-nav">
+                    <a href="/pages/features.html">Features</a>
+                    <a href="/pages/pricing.html">Pricing</a>
+                    <a href="/">Bookshelf</a>
+                    <a href="/pages/docs.html">Docs</a>
+                    <a href="/pages/download.html" class="btn-primary">Download</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bookshelf-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Discover Books by Indie Authors</h1>
+                <p class="hero-subtitle">
+                    Browse curated books from self-publishing authors powered by AuthorKit.
+                    Every book links back to the author's website to support them directly.
+                </p>
+                <div class="hero-stats" id="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-books">—</span>
+                        <span class="stat-label">Books</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-authors">—</span>
+                        <span class="stat-label">Authors</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">Genres</span>
+                    </div>
+                </div>
+                <a href="/pages/bookshelf/browse.html" class="btn-cta">Browse All Books</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Books Section -->
+    <section class="featured-books">
+        <div class="container">
+            <div class="section-header">
+                <h2>Latest Additions</h2>
+                <p>Discover the newest books added to our collection</p>
+            </div>
+            <div class="books-grid" id="featured-books-grid">
+                <!-- Books loaded dynamically -->
+                <div class="loading">Loading books...</div>
+            </div>
+            <div class="section-footer">
+                <a href="/pages/bookshelf/browse.html" class="btn-secondary">View All Books →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Genre Quick Links -->
+    <section class="genre-links">
+        <div class="container">
+            <div class="section-header">
+                <h2>Browse by Genre</h2>
+                <p>Explore books across your favorite categories</p>
+            </div>
+            <div class="genre-grid">
+                <a href="/pages/bookshelf/browse.html?genre=fantasy" class="genre-card">
+                    <span class="genre-icon">🐉</span>
+                    <span class="genre-name">Fantasy</span>
+                </a>
+                <a href="/pages/bookshelf/browse.html?genre=romance" class="genre-card">
+                    <span class="genre-icon">💕</span>
+                    <span class="genre-name">Romance</span>
+                </a>
+                <a href="/pages/bookshelf/browse.html?genre=science-fiction" class="genre-card">
+                    <span class="genre-icon">🚀</span>
+                    <span class="genre-name">Science Fiction</span>
+                </a>
+                <a href="/pages/bookshelf/browse.html?genre=thriller-suspense" class="genre-card">
+                    <span class="genre-icon">🔪</span>
+                    <span class="genre-name">Thriller & Suspense</span>
+                </a>
+                <a href="/pages/bookshelf/browse.html?genre=mystery-crime" class="genre-card">
+                    <span class="genre-icon">🔍</span>
+                    <span class="genre-name">Mystery & Crime</span>
+                </a>
+                <a href="/pages/bookshelf/browse.html?genre=young-adult" class="genre-card">
+                    <span class="genre-icon">📚</span>
+                    <span class="genre-name">Young Adult</span>
+                </a>
+                <a href="/pages/bookshelf/browse.html?genre=horror" class="genre-card">
+                    <span class="genre-icon">👻</span>
+                    <span class="genre-name">Horror</span>
+                </a>
+                <a href="/pages/bookshelf/browse.html?genre=non-fiction" class="genre-card">
+                    <span class="genre-icon">📖</span>
+                    <span class="genre-name">Non-Fiction</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Are You an Author?</h2>
+                <p>Showcase your books on AuthorKit Bookshelf and reach more readers.</p>
+                <a href="/pages/download.html" class="btn-cta">Get AuthorKit Plugin</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <img src="/images/logo-authorkit-white.svg" alt="AuthorKit" height="32" style="margin-bottom: 16px;">
+                    <p>WordPress plugins for self-publishing authors</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="/pages/features.html">Features</a></li>
+                        <li><a href="/pages/pricing.html">Pricing</a></li>
+                        <li><a href="/pages/download.html">Download</a></li>
+                        <li><a href="/pages/changelog.html">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="/pages/docs.html">Documentation</a></li>
+                        <li><a href="/">Bookshelf</a></li>
+                        <li><a href="/pages/support.html">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="/pages/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="/pages/terms-of-use.html">Terms of Use</a></li>
+                        <li><a href="/pages/refund-policy.html">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AuthorKit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="/js/bookshelf.js"></script>
+    <script>
+        // Load stats and featured books on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/api/bookshelf/books?limit=12&sort=latest');
+                const data = await response.json();
+
+                if (data.success) {
+                    // Update stats
+                    document.getElementById('total-books').textContent = data.stats.total_books;
+                    document.getElementById('total-authors').textContent = data.stats.total_authors;
+
+                    // Render featured books
+                    const grid = document.getElementById('featured-books-grid');
+                    grid.innerHTML = '';
+
+                    if (data.books.length === 0) {
+                        grid.innerHTML = '<p class="no-books">No books available yet. Be the first to add yours!</p>';
+                    } else {
+                        data.books.forEach(book => {
+                            grid.appendChild(createBookCard(book));
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load books:', error);
+                document.getElementById('featured-books-grid').innerHTML =
+                    '<p class="error">Failed to load books. Please try again later.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

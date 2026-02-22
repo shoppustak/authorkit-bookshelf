@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Books - AuthorKit Bookshelf</title>
+    <meta name="description" content="Browse and filter books from self-publishing authors powered by AuthorKit.">
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="stylesheet" href="/css/bookshelf.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <img src="/images/logo-authorkit.svg" alt="AuthorKit">
+                </a>
+                <nav class="main-nav">
+                    <a href="/pages/features.html">Features</a>
+                    <a href="/pages/pricing.html">Pricing</a>
+                    <a href="/">Bookshelf</a>
+                    <a href="/pages/docs.html">Docs</a>
+                    <a href="/pages/download.html" class="btn-primary">Download</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Browse Header -->
+    <section class="browse-header">
+        <div class="container">
+            <h1>Browse Books</h1>
+            <p>Discover your next great read from independent authors</p>
+        </div>
+    </section>
+
+    <!-- Browse Content -->
+    <section class="browse-content">
+        <div class="container">
+            <div class="browse-layout">
+
+                <!-- Sidebar: Filters -->
+                <aside class="browse-sidebar">
+                    <div class="filter-section">
+                        <h3>Search</h3>
+                        <input type="text" id="search-input" placeholder="Search by title or author..." class="search-input">
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Genre</h3>
+                        <div class="genre-filters" id="genre-filters">
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="all" checked>
+                                <span>All Genres</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="action-adventure">
+                                <span>Action & Adventure</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="childrens">
+                                <span>Children's Books</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="fantasy">
+                                <span>Fantasy</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="historical-fiction">
+                                <span>Historical Fiction</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="horror">
+                                <span>Horror</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="literary-fiction">
+                                <span>Literary Fiction</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="mystery-crime">
+                                <span>Mystery & Crime</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="non-fiction">
+                                <span>Non-Fiction</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="poetry">
+                                <span>Poetry</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="romance">
+                                <span>Romance</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="science-fiction">
+                                <span>Science Fiction</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="self-help">
+                                <span>Self-Help</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="thriller-suspense">
+                                <span>Thriller & Suspense</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="young-adult">
+                                <span>Young Adult</span>
+                            </label>
+                            <label class="genre-checkbox">
+                                <input type="checkbox" name="genre" value="other">
+                                <span>Other</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Sort By</h3>
+                        <select id="sort-select" class="sort-select">
+                            <option value="latest">Latest Added</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="title-asc">Title (A-Z)</option>
+                            <option value="title-desc">Title (Z-A)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-reset" id="reset-filters">Reset Filters</button>
+                </aside>
+
+                <!-- Main: Books Grid -->
+                <main class="browse-main">
+                    <div class="browse-controls">
+                        <p class="results-count" id="results-count">Loading...</p>
+                    </div>
+
+                    <div class="books-grid" id="books-grid">
+                        <div class="loading">Loading books...</div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <!-- Pagination buttons loaded dynamically -->
+                    </div>
+                </main>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="/images/logo-authorkit-white.svg" alt="AuthorKit" height="32">
+                    <p>WordPress plugins for self-publishing authors</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="/pages/features.html">Features</a>
+                    <a href="/pages/pricing.html">Pricing</a>
+                    <a href="/pages/download.html">Download</a>
+                    <a href="/pages/changelog.html">Changelog</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="/pages/docs.html">Documentation</a>
+                    <a href="/pages/bookshelf/">Bookshelf</a>
+                    <a href="/pages/support.html">Support</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="/pages/privacy-policy.html">Privacy Policy</a>
+                    <a href="/pages/terms-of-use.html">Terms of Use</a>
+                    <a href="/pages/refund-policy.html">Refund Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AuthorKit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="/js/bookshelf.js"></script>
+    <script src="/js/bookshelf-browse.js"></script>
+</body>
+</html>
