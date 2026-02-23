@@ -50,7 +50,7 @@
                         <span class="stat-label">Genres</span>
                     </div>
                 </div>
-                <a href="/pages/bookshelf/browse.html" class="btn-cta">Browse All Books</a>
+                <a href="/browse" class="btn-cta">Browse All Books</a>
             </div>
         </div>
     </section>
@@ -58,16 +58,31 @@
     <!-- Featured Books Section -->
     <section class="featured-books">
         <div class="container">
-            <div class="section-header">
-                <h2>Latest Additions</h2>
-                <p>Discover the newest books added to our collection</p>
+            <!-- Section Header with Sort -->
+            <div class="books-header">
+                <div class="books-header-left">
+                    <h2>Latest Additions</h2>
+                    <p class="books-count" id="books-count">Loading...</p>
+                </div>
+                <div class="books-header-right">
+                    <label for="index-sort" class="sort-label">Sort by:</label>
+                    <select id="index-sort" class="index-sort-select">
+                        <option value="latest">Latest Added</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="title-asc">Title (A-Z)</option>
+                        <option value="title-desc">Title (Z-A)</option>
+                    </select>
+                </div>
             </div>
+
+            <!-- Books Grid -->
             <div class="books-grid" id="featured-books-grid">
                 <!-- Books loaded dynamically -->
                 <div class="loading">Loading books...</div>
             </div>
+
             <div class="section-footer">
-                <a href="/pages/bookshelf/browse.html" class="btn-secondary">View All Books →</a>
+                <a href="/browse" class="btn-secondary">View All Books →</a>
             </div>
         </div>
     </section>
@@ -80,35 +95,35 @@
                 <p>Explore books across your favorite categories</p>
             </div>
             <div class="genre-grid">
-                <a href="/pages/bookshelf/browse.html?genre=fantasy" class="genre-card">
+                <a href="/browse?genre=fantasy" class="genre-card">
                     <span class="genre-icon">🐉</span>
                     <span class="genre-name">Fantasy</span>
                 </a>
-                <a href="/pages/bookshelf/browse.html?genre=romance" class="genre-card">
+                <a href="/browse?genre=romance" class="genre-card">
                     <span class="genre-icon">💕</span>
                     <span class="genre-name">Romance</span>
                 </a>
-                <a href="/pages/bookshelf/browse.html?genre=science-fiction" class="genre-card">
+                <a href="/browse?genre=science-fiction" class="genre-card">
                     <span class="genre-icon">🚀</span>
                     <span class="genre-name">Science Fiction</span>
                 </a>
-                <a href="/pages/bookshelf/browse.html?genre=thriller-suspense" class="genre-card">
+                <a href="/browse?genre=thriller-suspense" class="genre-card">
                     <span class="genre-icon">🔪</span>
                     <span class="genre-name">Thriller & Suspense</span>
                 </a>
-                <a href="/pages/bookshelf/browse.html?genre=mystery-crime" class="genre-card">
+                <a href="/browse?genre=mystery-crime" class="genre-card">
                     <span class="genre-icon">🔍</span>
                     <span class="genre-name">Mystery & Crime</span>
                 </a>
-                <a href="/pages/bookshelf/browse.html?genre=young-adult" class="genre-card">
+                <a href="/browse?genre=young-adult" class="genre-card">
                     <span class="genre-icon">📚</span>
                     <span class="genre-name">Young Adult</span>
                 </a>
-                <a href="/pages/bookshelf/browse.html?genre=horror" class="genre-card">
+                <a href="/browse?genre=horror" class="genre-card">
                     <span class="genre-icon">👻</span>
                     <span class="genre-name">Horror</span>
                 </a>
-                <a href="/pages/bookshelf/browse.html?genre=non-fiction" class="genre-card">
+                <a href="/browse?genre=non-fiction" class="genre-card">
                     <span class="genre-icon">📖</span>
                     <span class="genre-name">Non-Fiction</span>
                 </a>
@@ -170,16 +185,38 @@
     <!-- JavaScript -->
     <script src="/js/bookshelf.js"></script>
     <script>
+        let currentSort = 'latest';
+
         // Load stats and featured books on page load
         document.addEventListener('DOMContentLoaded', async () => {
+            // Set up sort change handler
+            const sortSelect = document.getElementById('index-sort');
+            if (sortSelect) {
+                sortSelect.addEventListener('change', (e) => {
+                    currentSort = e.target.value;
+                    loadIndexBooks();
+                });
+            }
+
+            // Initial load
+            loadIndexBooks();
+        });
+
+        async function loadIndexBooks() {
             try {
-                const response = await fetch('/api/bookshelf/books?limit=12&sort=latest');
+                const response = await fetch(`/api/bookshelf/books?limit=12&sort=${currentSort}`);
                 const data = await response.json();
 
                 if (data.success) {
                     // Update stats
                     document.getElementById('total-books').textContent = data.stats.total_books;
                     document.getElementById('total-authors').textContent = data.stats.total_authors;
+
+                    // Update book count
+                    const booksCount = document.getElementById('books-count');
+                    if (booksCount) {
+                        booksCount.textContent = `${data.stats.total_books} books`;
+                    }
 
                     // Render featured books
                     const grid = document.getElementById('featured-books-grid');
@@ -198,7 +235,7 @@
                 document.getElementById('featured-books-grid').innerHTML =
                     '<p class="error">Failed to load books. Please try again later.</p>';
             }
-        });
+        }
     </script>
 </body>
 </html>
