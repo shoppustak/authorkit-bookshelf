@@ -75,7 +75,7 @@ export default async function handler(req, res) {
 
     // Apply genre filter
     if (genre) {
-      query = query.contains('bookshelf_book_genres.genre_slug', [genre]);
+      query = query.filter('bookshelf_book_genres.genre_slug', 'eq', genre);
     }
 
     // Apply search filter
