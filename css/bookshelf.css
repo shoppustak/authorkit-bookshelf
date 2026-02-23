@@ -43,14 +43,16 @@ body {
 /* Wider container for book grids on large screens */
 @media (min-width: 1600px) {
     .featured-books .container,
-    .browse-content .container {
+    .browse-content .container,
+    .genre-links .container {
         max-width: 1600px;
     }
 }
 
 @media (min-width: 1920px) {
     .featured-books .container,
-    .browse-content .container {
+    .browse-content .container,
+    .genre-links .container {
         max-width: 1800px;
     }
 }
