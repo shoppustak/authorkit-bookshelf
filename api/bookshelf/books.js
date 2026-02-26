@@ -52,6 +52,7 @@ export default async function handler(req, res) {
       .from('bookshelf_books')
       .select(`
         id,
+        book_post_id,
         title,
         slug,
         description,
@@ -111,6 +112,21 @@ export default async function handler(req, res) {
       return res.status(500).json(formatSupabaseError(error));
     }
 
+    // Get view counts for all books in this result set
+    const bookIds = books.map(b => b.id);
+    const { data: viewCounts } = await supabase
+      .from('bookshelf_book_views')
+      .select('book_id')
+      .in('book_id', bookIds);
+
+    // Create a map of book_id to view count
+    const viewCountMap = {};
+    if (viewCounts) {
+      viewCounts.forEach(v => {
+        viewCountMap[v.book_id] = (viewCountMap[v.book_id] || 0) + 1;
+      });
+    }
+
     // Format books data
     const formattedBooks = books.map(book => ({
       id: book.id,
@@ -126,6 +142,7 @@ export default async function handler(req, res) {
         bio: book.author_bio,
         site_url: book.site_url
       },
+      source_post_id: book.book_post_id,
       genres: book.bookshelf_book_genres?.map(g => g.genre_slug) || [],
       purchase_links: {
         amazon_in: book.purchase_amazon_in,
@@ -136,7 +153,8 @@ export default async function handler(req, res) {
       rating: book.rating,
       review_count: book.review_count,
       publication_date: book.publication_date,
-      synced_at: book.synced_at
+      synced_at: book.synced_at,
+      view_count: viewCountMap[book.id] || 0
     }));
 
     // Get stats (total books and authors)

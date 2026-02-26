@@ -158,3 +158,46 @@ CREATE POLICY "Service role full access to genre requests"
 --   COUNT(DISTINCT bg.genre_slug) as genres_used
 -- FROM bookshelf_books b
 -- LEFT JOIN bookshelf_book_genres bg ON b.id = bg.book_id;
+
+-- ============================================================================
+-- Table: bookshelf_book_views
+-- Tracks book views for analytics (simple counter)
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS bookshelf_book_views (
+  id SERIAL PRIMARY KEY,
+  book_id INTEGER REFERENCES bookshelf_books(id) ON DELETE CASCADE,
+  viewed_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Index for fast view count queries
+CREATE INDEX IF NOT EXISTS idx_book_views_book_id ON bookshelf_book_views(book_id);
+CREATE INDEX IF NOT EXISTS idx_book_views_viewed_at ON bookshelf_book_views(viewed_at DESC);
+
+-- Enable RLS
+ALTER TABLE bookshelf_book_views ENABLE ROW LEVEL SECURITY;
+
+-- Public can insert views (anonymous tracking)
+CREATE POLICY "Public can insert views"
+  ON bookshelf_book_views FOR INSERT
+  WITH CHECK (true);
+
+-- Service role can read all views
+CREATE POLICY "Service role read views"
+  ON bookshelf_book_views FOR SELECT
+  USING (true);
+
+-- Create materialized view for fast view counts (optional, for performance)
+-- This can be refreshed periodically
+CREATE MATERIALIZED VIEW IF NOT EXISTS bookshelf_book_view_counts AS
+SELECT
+  book_id,
+  COUNT(*) as view_count
+FROM bookshelf_book_views
+GROUP BY book_id;
+
+-- Index on materialized view
+CREATE UNIQUE INDEX IF NOT EXISTS idx_book_view_counts_book_id
+  ON bookshelf_book_view_counts(book_id);
+
+-- Refresh function (can be called by cron job)
+-- REFRESH MATERIALIZED VIEW CONCURRENTLY bookshelf_book_view_counts;

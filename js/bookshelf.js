@@ -10,6 +10,51 @@
 const AMAZON_AFFILIATE_TAG = 'authorkit-20'; // Update with actual tag
 
 /**
+ * Track which books have been viewed (to avoid duplicate tracking)
+ */
+const viewedBooks = new Set();
+
+/**
+ * Intersection Observer for tracking book views
+ * Tracks when a book card becomes visible in the viewport
+ */
+const viewObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const bookId = entry.target.dataset.bookId;
+
+      // Only track once per book per session
+      if (bookId && !viewedBooks.has(bookId)) {
+        viewedBooks.add(bookId);
+        trackBookView(bookId);
+      }
+    }
+  });
+}, {
+  threshold: 0.5, // Book must be 50% visible
+  rootMargin: '0px'
+});
+
+/**
+ * Tracks a book view by sending to analytics API
+ * @param {number} bookId - Book ID to track
+ */
+async function trackBookView(bookId) {
+  try {
+    await fetch('/api/bookshelf/track-view', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ book_id: bookId })
+    });
+  } catch (error) {
+    // Silently fail - don't break the page if tracking fails
+    console.debug('Failed to track view:', error);
+  }
+}
+
+/**
  * Creates a book card element
  * @param {Object} book - Book data from API
  * @returns {HTMLElement} Book card element
@@ -17,6 +62,7 @@ const AMAZON_AFFILIATE_TAG = 'authorkit-20'; // Update with actual tag
 function createBookCard(book) {
     const card = document.createElement('div');
     card.className = 'book-card';
+    card.dataset.bookId = book.id; // For view tracking
 
     // Cover image wrapper
     const coverWrapper = document.createElement('div');
@@ -28,6 +74,21 @@ function createBookCard(book) {
     coverImg.className = 'book-cover';
     coverImg.loading = 'lazy';
     coverWrapper.appendChild(coverImg);
+
+    // View count badge overlay (if views > 0)
+    if (book.view_count && book.view_count > 0) {
+        const viewBadge = document.createElement('div');
+        viewBadge.className = 'view-count-badge';
+        viewBadge.innerHTML = `
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <span>${formatViewCount(book.view_count)}</span>
+        `;
+        coverWrapper.appendChild(viewBadge);
+    }
+
     card.appendChild(coverWrapper);
 
     // Book info container
@@ -115,6 +176,9 @@ function createBookCard(book) {
 
     info.appendChild(actions);
     card.appendChild(info);
+
+    // Attach Intersection Observer for view tracking
+    viewObserver.observe(card);
 
     return card;
 }
@@ -232,4 +296,17 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
+}
+
+/**
+ * Formats view count for display
+ * Converts large numbers to readable format (e.g., 1.2K, 5.3K)
+ * @param {number} count - View count
+ * @returns {string} Formatted count
+ */
+function formatViewCount(count) {
+    if (count >= 1000) {
+        return (count / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return count.toString();
 }
