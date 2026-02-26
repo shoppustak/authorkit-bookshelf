@@ -414,14 +414,14 @@ body {
     margin-top: auto;
     padding-top: 8px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 6px;
+    align-items: center;
 }
 
-.btn-view-site,
 .btn-buy {
+    flex: 1;
     display: block;
-    width: 100%;
     padding: 9px 12px;
     border-radius: 4px;
     text-decoration: none;
@@ -431,24 +431,40 @@ body {
     transition: all 0.2s ease;
     cursor: pointer;
     border: none;
-}
-
-.btn-view-site {
-    background: var(--authorkit-navy);
-    color: #ffffff;
-}
-
-.btn-view-site:hover {
-    background: #152C46;
-}
-
-.btn-buy {
     background: var(--authorkit-orange);
     color: #ffffff;
 }
 
 .btn-buy:hover {
     background: var(--authorkit-orange-hover);
+}
+
+.btn-view-site {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    padding: 0;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    background: white;
+    color: var(--gray-600);
+}
+
+.btn-view-site:hover {
+    background: var(--gray-50);
+    border-color: var(--authorkit-navy);
+    color: var(--authorkit-navy);
+}
+
+.btn-view-site svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* ============================================================================
@@ -931,7 +947,8 @@ body {
         gap: 20px;
     }
 
+    /* Keep buttons inline on mobile */
     .book-actions {
-        flex-direction: column;
+        flex-direction: row;
     }
 }

@@ -82,26 +82,36 @@ function createBookCard(book) {
     const actions = document.createElement('div');
     actions.className = 'book-actions';
 
-    // View on Author's Site button
-    const viewSiteBtn = document.createElement('a');
-    viewSiteBtn.href = book.author.site_url;
-    viewSiteBtn.className = 'btn-view-site';
-    viewSiteBtn.textContent = "View on Author's Site";
-    viewSiteBtn.target = '_blank';
-    viewSiteBtn.rel = 'noopener noreferrer';
-    actions.appendChild(viewSiteBtn);
-
-    // Buy on Amazon button (prefer .com, fallback to .in)
+    // Primary button - Amazon/Buy link (or other purchase link)
     const amazonLink = book.purchase_links.amazon_com || book.purchase_links.amazon_in;
-    if (amazonLink) {
+    const otherLink = book.purchase_links.other;
+
+    if (amazonLink || otherLink) {
         const buyBtn = document.createElement('a');
-        buyBtn.href = addAffiliateTag(amazonLink);
+        buyBtn.href = amazonLink ? addAffiliateTag(amazonLink) : otherLink;
+        buyBtn.textContent = amazonLink ? 'Buy on Amazon' : 'Buy Book';
         buyBtn.className = 'btn-buy';
-        buyBtn.textContent = 'Buy on Amazon';
         buyBtn.target = '_blank';
         buyBtn.rel = 'noopener noreferrer nofollow';
         actions.appendChild(buyBtn);
     }
+
+    // Secondary button - View on Author's Site (eye icon)
+    const authorSiteBtn = document.createElement('a');
+    // Construct proper book URL - use source_post_id to link to actual book page
+    const bookUrl = book.source_post_id
+        ? `${book.author.site_url}/?p=${book.source_post_id}`
+        : book.slug
+            ? `${book.author.site_url}/book/${book.slug}/`
+            : book.author.site_url;
+
+    authorSiteBtn.href = bookUrl;
+    authorSiteBtn.className = 'btn-view-site';
+    authorSiteBtn.target = '_blank';
+    authorSiteBtn.rel = 'noopener noreferrer';
+    authorSiteBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+    authorSiteBtn.title = "View on author's site";
+    actions.appendChild(authorSiteBtn);
 
     info.appendChild(actions);
     card.appendChild(info);
