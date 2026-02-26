@@ -7,7 +7,7 @@
  * AuthorKit Amazon Affiliate Tag
  * All Amazon buy links use this tag for revenue attribution
  */
-const AMAZON_AFFILIATE_TAG = 'authorkit-20'; // Update with actual tag
+const AMAZON_AFFILIATE_TAG = 'minihover-21';
 
 /**
  * Track which books have been viewed (to avoid duplicate tracking)
