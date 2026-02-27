@@ -220,9 +220,11 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // Update stats
-                    document.getElementById('total-books').textContent = data.stats.total_books;
-                    document.getElementById('total-authors').textContent = data.stats.total_authors;
+                    // Update stats (only if elements exist)
+                    const totalBooksEl = document.getElementById('total-books');
+                    const totalAuthorsEl = document.getElementById('total-authors');
+                    if (totalBooksEl) totalBooksEl.textContent = data.stats.total_books;
+                    if (totalAuthorsEl) totalAuthorsEl.textContent = data.stats.total_authors;
 
                     // Update book count
                     const booksCount = document.getElementById('books-count');
