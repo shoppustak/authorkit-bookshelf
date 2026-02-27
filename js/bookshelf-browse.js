@@ -39,6 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set up event listeners
     setupEventListeners();
 
+    // Set up sidebar toggle
+    setupSidebarToggle();
+
     // Load initial books
     loadBooks();
 });
@@ -301,4 +304,31 @@ function createPageButton(pageNum, currentPage) {
     });
 
     return btn;
+}
+
+/**
+ * Set up sidebar toggle functionality
+ */
+function setupSidebarToggle() {
+    const sidebar = document.getElementById('browse-sidebar');
+    const browseLayout = document.querySelector('.browse-layout');
+    const toggleBtn = document.getElementById('sidebar-toggle');
+
+    // Check localStorage for saved state
+    const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+
+    // Apply saved state
+    if (sidebarCollapsed) {
+        sidebar.classList.add('collapsed');
+        browseLayout.classList.add('sidebar-collapsed');
+    }
+
+    // Toggle on button click
+    toggleBtn.addEventListener('click', () => {
+        const isCollapsed = sidebar.classList.toggle('collapsed');
+        browseLayout.classList.toggle('sidebar-collapsed');
+
+        // Save state to localStorage
+        localStorage.setItem('sidebarCollapsed', isCollapsed);
+    });
 }

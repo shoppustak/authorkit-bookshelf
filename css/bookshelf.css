@@ -599,6 +599,11 @@ body {
     grid-template-columns: 280px 1fr;
     gap: 30px;
     align-items: start;
+    transition: grid-template-columns 0.3s ease;
+}
+
+.browse-layout.sidebar-collapsed {
+    grid-template-columns: 60px 1fr;
 }
 
 /* ============================================================================
@@ -611,6 +616,59 @@ body {
     border-radius: 4px;
     position: sticky;
     top: 80px;
+    transition: all 0.3s ease;
+}
+
+.browse-sidebar.collapsed {
+    padding: 10px;
+}
+
+.sidebar-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--gray-900);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.sidebar-toggle:hover {
+    background: var(--authorkit-navy);
+    border-color: var(--authorkit-navy);
+    color: white;
+}
+
+.sidebar-toggle svg {
+    transition: transform 0.3s ease;
+}
+
+.browse-sidebar.collapsed .sidebar-toggle svg {
+    transform: rotate(90deg);
+}
+
+.sidebar-content {
+    max-height: 2000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.browse-sidebar.collapsed .sidebar-content {
+    max-height: 0;
+    opacity: 0;
+}
+
+.browse-sidebar.collapsed .sidebar-toggle {
+    margin-bottom: 0;
 }
 
 .filter-section {
@@ -726,10 +784,9 @@ body {
 
 .browse-controls {
     margin-bottom: 25px;
-    padding: 15px 20px;
-    background: var(--gray-50);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
+    padding: 0;
+    background: transparent;
+    border: none;
 }
 
 .results-count {
@@ -937,9 +994,21 @@ body {
         gap: 25px;
     }
 
+    .browse-layout.sidebar-collapsed {
+        grid-template-columns: 1fr;
+    }
+
     .browse-sidebar {
         position: static;
         top: auto;
+    }
+
+    .browse-sidebar.collapsed {
+        padding: 10px;
+    }
+
+    .sidebar-toggle-text {
+        display: inline;
     }
 
     .genre-grid {

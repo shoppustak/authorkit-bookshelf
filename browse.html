@@ -51,15 +51,22 @@
             <div class="browse-layout">
 
                 <!-- Sidebar: Filters -->
-                <aside class="browse-sidebar">
-                    <div class="filter-section">
-                        <h3>Search</h3>
-                        <input type="text" id="search-input" placeholder="Search by title or author..." class="search-input">
-                    </div>
+                <aside class="browse-sidebar" id="browse-sidebar">
+                    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle filters">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 6H17M3 10H17M3 14H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span class="sidebar-toggle-text">Filters</span>
+                    </button>
+                    <div class="sidebar-content" id="sidebar-content">
+                        <div class="filter-section">
+                            <h3>Search</h3>
+                            <input type="text" id="search-input" placeholder="Search by title or author..." class="search-input">
+                        </div>
 
-                    <div class="filter-section">
-                        <h3>Genre</h3>
-                        <div class="genre-filters" id="genre-filters">
+                        <div class="filter-section">
+                            <h3>Genre</h3>
+                            <div class="genre-filters" id="genre-filters">
                             <label class="genre-checkbox">
                                 <input type="checkbox" name="genre" value="all" checked>
                                 <span>All Genres</span>
@@ -124,20 +131,21 @@
                                 <input type="checkbox" name="genre" value="other">
                                 <span>Other</span>
                             </label>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="filter-section">
-                        <h3>Sort By</h3>
-                        <select id="sort-select" class="sort-select">
-                            <option value="latest">Latest Added</option>
-                            <option value="oldest">Oldest First</option>
-                            <option value="title-asc">Title (A-Z)</option>
-                            <option value="title-desc">Title (Z-A)</option>
-                        </select>
-                    </div>
+                        <div class="filter-section">
+                            <h3>Sort By</h3>
+                            <select id="sort-select" class="sort-select">
+                                <option value="latest">Latest Added</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="title-asc">Title (A-Z)</option>
+                                <option value="title-desc">Title (Z-A)</option>
+                            </select>
+                        </div>
 
-                    <button class="btn-reset" id="reset-filters">Reset Filters</button>
+                        <button class="btn-reset" id="reset-filters">Reset Filters</button>
+                    </div>
                 </aside>
 
                 <!-- Main: Books Grid -->
