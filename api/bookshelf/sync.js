@@ -15,8 +15,19 @@
  */
 
 import supabase, { formatSupabaseError, validatePayload } from '../_lib/supabase.js';
+import { setCorsHeaders, setSecurityHeaders } from '../_lib/security.js';
+import { sanitizeHtml, sanitizeUrl, truncateText } from '../_lib/sanitize.js';
 
 export default async function handler(req, res) {
+  // Set CORS and security headers
+  setCorsHeaders(req, res);
+  setSecurityHeaders(res);
+
+  // Handle OPTIONS request for CORS preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({
@@ -59,25 +70,25 @@ export default async function handler(req, res) {
       return res.status(500).json(formatSupabaseError(siteError));
     }
 
-    // Prepare book data for database
+    // Prepare book data for database with sanitization
     const bookData = {
       site_url: payload.site_url,
       book_post_id: payload.book_post_id,
-      title: payload.title,
+      title: truncateText(payload.title, 200),
       slug: payload.slug || '',
-      description: payload.description || '',
-      cover_thumbnail: payload.cover?.thumbnail || '',
-      cover_medium: payload.cover?.medium || '',
-      cover_large: payload.cover?.large || '',
-      cover_full: payload.cover?.full || '',
-      author_name: payload.author || '',
-      author_bio: payload.author_bio || '',
-      author_website: payload.author_website || '',
-      author_twitter: payload.author_twitter || '',
-      author_instagram: payload.author_instagram || '',
-      purchase_amazon_in: payload.purchase_links?.amazon_in || '',
-      purchase_amazon_com: payload.purchase_links?.amazon_com || '',
-      purchase_other: payload.purchase_links?.other || '',
+      description: sanitizeHtml(payload.description || ''),
+      cover_thumbnail: sanitizeUrl(payload.cover?.thumbnail || ''),
+      cover_medium: sanitizeUrl(payload.cover?.medium || ''),
+      cover_large: sanitizeUrl(payload.cover?.large || ''),
+      cover_full: sanitizeUrl(payload.cover?.full || ''),
+      author_name: truncateText(payload.author || '', 100),
+      author_bio: sanitizeHtml(payload.author_bio || ''),
+      author_website: sanitizeUrl(payload.author_website || ''),
+      author_twitter: sanitizeUrl(payload.author_twitter || ''),
+      author_instagram: sanitizeUrl(payload.author_instagram || ''),
+      purchase_amazon_in: sanitizeUrl(payload.purchase_links?.amazon_in || ''),
+      purchase_amazon_com: sanitizeUrl(payload.purchase_links?.amazon_com || ''),
+      purchase_other: sanitizeUrl(payload.purchase_links?.other || ''),
       local_categories: JSON.stringify(payload.local_categories || []),
       formats: JSON.stringify(payload.formats || []),
       isbn: payload.isbn || '',

@@ -16,8 +16,18 @@
  */
 
 import supabase, { formatSupabaseError } from '../_lib/supabase.js';
+import { setCorsHeaders, setSecurityHeaders } from '../_lib/security.js';
 
 export default async function handler(req, res) {
+  // Set CORS and security headers
+  setCorsHeaders(req, res);
+  setSecurityHeaders(res);
+
+  // Handle OPTIONS request for CORS preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   // Only allow GET requests
   if (req.method !== 'GET') {
     return res.status(405).json({

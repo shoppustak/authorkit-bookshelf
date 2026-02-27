@@ -6,8 +6,9 @@
 /**
  * AuthorKit Amazon Affiliate Tag
  * All Amazon buy links use this tag for revenue attribution
+ * This value is fetched from the API and cached globally
  */
-const AMAZON_AFFILIATE_TAG = 'minihover-21';
+let AMAZON_AFFILIATE_TAG = 'minihover-21'; // Default fallback
 
 /**
  * Track which books have been viewed (to avoid duplicate tracking)

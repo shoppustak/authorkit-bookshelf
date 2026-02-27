@@ -16,28 +16,60 @@
  */
 
 import supabase, { formatSupabaseError } from '../_lib/supabase.js';
+import { setCorsHeaders, setSecurityHeaders, rateLimit, getClientIp, validateInput } from '../_lib/security.js';
+import { methodNotAllowedError, rateLimitError, validationError, internalError, HTTP_STATUS } from '../_lib/errors.js';
+import logger from '../_lib/logger.js';
 
 export default async function handler(req, res) {
+  // Set CORS and security headers
+  setCorsHeaders(req, res);
+  setSecurityHeaders(res);
+
+  // Handle OPTIONS request for CORS preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   // Only allow POST requests
   if (req.method !== 'POST') {
-    return res.status(405).json({
-      success: false,
-      error: 'Method not allowed. Use POST.'
-    });
+    return res.status(HTTP_STATUS.METHOD_NOT_ALLOWED).json(
+      methodNotAllowedError('POST')
+    );
+  }
+
+  // Rate limiting - 100 requests per hour per IP
+  const clientIp = getClientIp(req);
+  const rateLimitResult = rateLimit(clientIp, 100, 3600000); // 100 req/hour
+
+  if (!rateLimitResult.allowed) {
+    return res.status(HTTP_STATUS.TOO_MANY_REQUESTS).json(
+      rateLimitError(rateLimitResult.retryAfter)
+    );
   }
 
   try {
-    const { book_id } = req.body;
+    // Validate input using validateInput utility
+    const validation = validateInput(req.body, {
+      book_id: {
+        required: true,
+        type: 'number'
+      }
+    });
 
-    // Validate book_id
-    if (!book_id || isNaN(parseInt(book_id))) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid book_id. Must be a number.'
-      });
+    if (!validation.isValid) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json(
+        validationError('Validation failed', validation.errors)
+      );
     }
 
-    const bookId = parseInt(book_id);
+    const bookId = validation.data.book_id;
+
+    // Additional validation: book_id must be positive
+    if (bookId <= 0) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json(
+        validationError('book_id must be a positive number')
+      );
+    }
 
     // Insert view record
     const { error } = await supabase
@@ -47,25 +79,24 @@ export default async function handler(req, res) {
       });
 
     if (error) {
-      console.error('Failed to track view:', formatSupabaseError(error));
+      logger.error('Failed to track view', error);
       // Don't fail the request if tracking fails
-      return res.status(200).json({
+      return res.status(HTTP_STATUS.OK).json({
         success: true,
         tracked: false
       });
     }
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       tracked: true
     });
 
   } catch (error) {
-    console.error('Error tracking view:', error);
-    // Don't fail the request if tracking fails
-    return res.status(200).json({
-      success: true,
-      tracked: false
-    });
+    logger.error('Error tracking view', error);
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    return res.status(HTTP_STATUS.INTERNAL_ERROR).json(
+      internalError(isDevelopment, error)
+    );
   }
 }

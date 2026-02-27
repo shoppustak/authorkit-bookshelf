@@ -159,6 +159,11 @@ async function loadBooks() {
             throw new Error(data.error || 'Failed to load books');
         }
 
+        // Update Amazon affiliate tag from API config
+        if (data.config && data.config.amazon_affiliate_tag) {
+            AMAZON_AFFILIATE_TAG = data.config.amazon_affiliate_tag;
+        }
+
         // Update pagination info
         totalPages = data.pagination.pages;
 

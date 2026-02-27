@@ -23,8 +23,19 @@
  */
 
 import supabase, { formatSupabaseError } from '../_lib/supabase.js';
+import { setCorsHeaders, setSecurityHeaders } from '../_lib/security.js';
+import { getEnv } from '../_lib/env-validator.js';
 
 export default async function handler(req, res) {
+  // Set CORS and security headers
+  setCorsHeaders(req, res);
+  setSecurityHeaders(res);
+
+  // Handle OPTIONS request for CORS preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   // Only allow GET requests
   if (req.method !== 'GET') {
     return res.status(405).json({
@@ -113,6 +124,12 @@ export default async function handler(req, res) {
     }
 
     // Get view counts for all books in this result set
+    // OPTIMIZATION OPPORTUNITY: Create a materialized view in Supabase:
+    // CREATE MATERIALIZED VIEW bookshelf_book_view_counts AS
+    //   SELECT book_id, COUNT(*) as view_count
+    //   FROM bookshelf_book_views
+    //   GROUP BY book_id;
+    // Then query that view instead of counting here
     const bookIds = books.map(b => b.id);
     const { data: viewCounts } = await supabase
       .from('bookshelf_book_views')
@@ -158,6 +175,16 @@ export default async function handler(req, res) {
     }));
 
     // Get stats (total books and authors)
+    // OPTIMIZATION OPPORTUNITY: Create a materialized view for stats:
+    // CREATE MATERIALIZED VIEW bookshelf_stats AS
+    //   SELECT
+    //     COUNT(*) as total_books,
+    //     COUNT(DISTINCT site_url) as total_authors,
+    //     COUNT(DISTINCT bookshelf_book_genres.genre_slug) as total_genres
+    //   FROM bookshelf_books
+    //   LEFT JOIN bookshelf_book_genres ON bookshelf_books.id = bookshelf_book_genres.book_id;
+    // Refresh periodically: REFRESH MATERIALIZED VIEW bookshelf_stats;
+    // Then query that view instead of counting here (saves 2 queries per request)
     const { count: totalBooks } = await supabase
       .from('bookshelf_books')
       .select('*', { count: 'exact', head: true });
@@ -172,6 +199,9 @@ export default async function handler(req, res) {
     // Calculate pagination
     const totalPages = Math.ceil((count || 0) / limitNum);
 
+    // Get affiliate tag from environment
+    const affiliateTag = getEnv('AMAZON_AFFILIATE_TAG', 'minihover-21');
+
     // Success response
     return res.status(200).json({
       success: true,
@@ -185,6 +215,9 @@ export default async function handler(req, res) {
       stats: {
         total_books: totalBooks || 0,
         total_authors: uniqueAuthors
+      },
+      config: {
+        amazon_affiliate_tag: affiliateTag
       }
     });
 

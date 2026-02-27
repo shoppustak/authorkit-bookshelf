@@ -4,7 +4,17 @@
   "description": "AuthorKit Bookshelf - Discover books from indie authors",
   "private": true,
   "type": "module",
+  "scripts": {
+    "build:css": "cssnano css/bookshelf.css css/bookshelf.min.css",
+    "build:js": "terser js/bookshelf.js -o js/bookshelf.min.js -c -m && terser js/bookshelf-browse.js -o js/bookshelf-browse.min.js -c -m",
+    "build": "npm run build:css && npm run build:js"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {
+    "terser": "^5.27.0",
+    "cssnano": "^6.0.3",
+    "cssnano-cli": "^1.0.5"
   }
 }
