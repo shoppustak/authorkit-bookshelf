@@ -353,7 +353,7 @@ body {
     position: absolute;
     top: 8px;
     right: 8px;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(30, 58, 95, 0.85);
     backdrop-filter: blur(4px);
     color: white;
     padding: 4px 8px;
