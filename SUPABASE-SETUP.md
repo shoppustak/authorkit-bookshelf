@@ -14,7 +14,61 @@ Follow these steps in your Supabase dashboard to implement performance optimizat
 
 ---
 
-## Step 2: Create Materialized View for Book View Counts
+## Step 2: Create Database Schema (REQUIRED FIRST)
+
+**⚠️ IMPORTANT: Run this first if tables don't exist yet!**
+
+Copy the entire contents of `DATABASE-SCHEMA.sql` and paste into the SQL Editor:
+
+```sql
+-- Or just run this simplified version:
+-- (See DATABASE-SCHEMA.sql for the complete version)
+```
+
+**Alternatively**, you can copy/paste the entire `DATABASE-SCHEMA.sql` file contents.
+
+This creates:
+- ✅ All required tables (bookshelf_sites, bookshelf_books, bookshelf_book_genres, bookshelf_book_views)
+- ✅ All indexes
+- ✅ Materialized views
+- ✅ Permissions
+- ✅ Helper functions
+
+**Click "Run"** ✅
+
+**Verify it worked:**
+```sql
+-- Check if tables exist
+SELECT table_name FROM information_schema.tables
+WHERE table_schema = 'public' AND table_type = 'BASE TABLE'
+ORDER BY table_name;
+```
+
+You should see:
+- bookshelf_books
+- bookshelf_book_genres
+- bookshelf_book_views
+- bookshelf_sites
+
+---
+
+## Step 3: Initial Refresh of Materialized Views
+
+After creating the schema, refresh the views:
+
+```sql
+-- Initial refresh (run once after creation)
+REFRESH MATERIALIZED VIEW bookshelf_book_view_counts;
+REFRESH MATERIALIZED VIEW bookshelf_stats;
+```
+
+**Click "Run"** ✅
+
+---
+
+## Step 4: (Optional) Create Materialized View for Book View Counts
+
+**Note**: This is already created in DATABASE-SCHEMA.sql, but here's the standalone version if needed:
 
 Copy and paste this SQL into the editor:
 
