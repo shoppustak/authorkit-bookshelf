@@ -117,38 +117,35 @@ FROM bookshelf_books;
 -- STEP 4: Set Up Row Level Security (RLS)
 -- ============================================================================
 
--- Enable RLS on tables (optional - currently public read access)
--- Uncomment if you want to enable RLS in the future
-
--- ALTER TABLE bookshelf_sites ENABLE ROW LEVEL SECURITY;
--- ALTER TABLE bookshelf_books ENABLE ROW LEVEL SECURITY;
--- ALTER TABLE bookshelf_book_genres ENABLE ROW LEVEL SECURITY;
--- ALTER TABLE bookshelf_book_views ENABLE ROW LEVEL SECURITY;
+-- Enable RLS on all tables (required for Supabase security)
+ALTER TABLE bookshelf_sites ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bookshelf_books ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bookshelf_book_genres ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bookshelf_book_views ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for public read access
--- CREATE POLICY "Public read access" ON bookshelf_books FOR SELECT USING (true);
--- CREATE POLICY "Public read access" ON bookshelf_book_genres FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON bookshelf_sites FOR SELECT USING (active = true);
+CREATE POLICY "Public read access" ON bookshelf_books FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON bookshelf_book_genres FOR SELECT USING (true);
+
+-- Policies for bookshelf_book_views (INSERT only for anonymous tracking)
+CREATE POLICY "Public can insert views" ON bookshelf_book_views FOR INSERT WITH CHECK (true);
+CREATE POLICY "Service role read views" ON bookshelf_book_views FOR SELECT USING (auth.role() = 'service_role');
+
+-- Service role full access policies (for API operations)
+CREATE POLICY "Service role full access sites" ON bookshelf_sites FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY "Service role full access books" ON bookshelf_books FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY "Service role full access genres" ON bookshelf_book_genres FOR ALL USING (auth.role() = 'service_role');
 
 -- ============================================================================
 -- STEP 5: Grant Permissions
 -- ============================================================================
 
--- Grant read access to anon and authenticated users
-GRANT SELECT ON bookshelf_sites TO anon, authenticated;
-GRANT SELECT ON bookshelf_books TO anon, authenticated;
-GRANT SELECT ON bookshelf_book_genres TO anon, authenticated;
-GRANT SELECT ON bookshelf_book_views TO anon, authenticated;
+-- Grant permissions on materialized views (not controlled by RLS)
 GRANT SELECT ON bookshelf_book_view_counts TO anon, authenticated;
 GRANT SELECT ON bookshelf_stats TO anon, authenticated;
 
--- Grant insert/update/delete permissions for API endpoints (using service_role key)
--- Note: API uses anon key but some operations need elevated privileges
-GRANT INSERT, UPDATE, DELETE ON bookshelf_sites TO anon, authenticated;
-GRANT INSERT, UPDATE, DELETE ON bookshelf_books TO anon, authenticated;
-GRANT INSERT, UPDATE, DELETE ON bookshelf_book_genres TO anon, authenticated;
-GRANT INSERT ON bookshelf_book_views TO anon, authenticated;
-
--- Grant sequence usage
+-- Grant sequence usage for INSERT operations
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated;
 
 -- ============================================================================
@@ -234,9 +231,11 @@ GRANT EXECUTE ON FUNCTION refresh_bookshelf_views() TO anon, authenticated;
 
 -- 1. This script is idempotent - safe to run multiple times
 -- 2. All CREATE statements use IF NOT EXISTS
--- 3. RLS is disabled by default for public read access
--- 4. pg_cron setup is commented out - enable manually if available
--- 5. Materialized views need initial refresh after creation
+-- 3. RLS is enabled on all tables with appropriate policies
+-- 4. Public users can read books/genres and insert view tracking
+-- 5. Service role has full access for API operations
+-- 6. pg_cron setup is commented out - enable manually if available
+-- 7. Materialized views need initial refresh after creation
 
 -- ============================================================================
 -- END OF SCHEMA

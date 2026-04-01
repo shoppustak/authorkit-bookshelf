@@ -181,10 +181,10 @@ CREATE POLICY "Public can insert views"
   ON bookshelf_book_views FOR INSERT
   WITH CHECK (true);
 
--- Service role can read all views
+-- Service role can read all views (backend analytics)
 CREATE POLICY "Service role read views"
   ON bookshelf_book_views FOR SELECT
-  USING (true);
+  USING (auth.role() = 'service_role');
 
 -- Create materialized view for fast view counts (optional, for performance)
 -- This can be refreshed periodically
@@ -198,6 +198,11 @@ GROUP BY book_id;
 -- Index on materialized view
 CREATE UNIQUE INDEX IF NOT EXISTS idx_book_view_counts_book_id
   ON bookshelf_book_view_counts(book_id);
+
+-- Grant permissions on materialized views
+-- Allow anonymous and authenticated users to read aggregated view counts
+GRANT SELECT ON bookshelf_book_view_counts TO anon;
+GRANT SELECT ON bookshelf_book_view_counts TO authenticated;
 
 -- Refresh function (can be called by cron job)
 -- REFRESH MATERIALIZED VIEW CONCURRENTLY bookshelf_book_view_counts;
