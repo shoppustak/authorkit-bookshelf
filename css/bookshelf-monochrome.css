@@ -35,8 +35,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Ensure CTA section text has no background */
 .cta-section h2,
-.cta-section p,
-.cta-section a {
+.cta-section p {
     background: transparent;
 }
 
@@ -609,6 +608,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: var(--text-h2);
     margin-bottom: 15px;
     font-weight: 700;
+    color: var(--color-white);
 }
 
 .cta-section p {
@@ -618,6 +618,7 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    color: var(--color-white);
 }
 
 /* ============================================================================
