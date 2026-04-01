@@ -106,7 +106,9 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: underline;
 }
 
-.btn-primary {
+/* Primary button - ensure proper styling even in nav */
+.btn-primary,
+.main-nav a.btn-primary {
     background: var(--color-black);
     color: var(--color-white);
     border: 2px solid var(--color-black);
@@ -116,20 +118,25 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 16px;
     min-height: 40px;
     cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.main-nav a.btn-primary:hover {
     background: var(--color-white);
     color: var(--color-black);
+    text-decoration: none;
 }
 
 /* ============================================================================
    Hero Section
    ========================================================================= */
 .bookshelf-hero {
-    background: var(--color-white);
+    background: var(--color-cream);
     padding: 60px 0;
-    border-bottom: 1px solid var(--color-black);
 }
 
 .hero-content {
@@ -234,7 +241,6 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 2px solid var(--color-black);
 }
 
 .books-header-left h2 {
@@ -292,8 +298,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .books-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
     margin-bottom: 40px;
 }
 
@@ -523,7 +529,6 @@ h1, h2, h3, h4, h5, h6 {
 .genre-links {
     padding: 60px 0;
     background: var(--color-white);
-    border-top: 1px solid var(--color-black);
 }
 
 .genre-grid {
@@ -592,10 +597,9 @@ h1, h2, h3, h4, h5, h6 {
    Browse Page
    ========================================================================= */
 .browse-header {
-    background: var(--color-white);
+    background: var(--color-cream);
     padding: 50px 0;
     text-align: center;
-    border-bottom: 1px solid var(--color-black);
 }
 
 .browse-header h1 {
