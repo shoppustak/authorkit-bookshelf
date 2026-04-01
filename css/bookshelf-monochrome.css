@@ -479,12 +479,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-buy {
     flex: 1;
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 9px 12px;
     text-decoration: none;
     font-weight: 600;
     font-size: 13px;
-    text-align: center;
     cursor: pointer;
     border: 2px solid var(--color-black);
     background: var(--color-black);
