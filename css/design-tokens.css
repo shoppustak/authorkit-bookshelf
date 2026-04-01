@@ -1,0 +1,167 @@
+/**
+ * AuthorKit Design Tokens
+ * Minimalist Monochrome Design System v1.0
+ *
+ * These tokens are the single source of truth for design values
+ */
+
+:root {
+  /* ================================
+   * COLORS
+   * ================================ */
+
+  /* Primary Palette */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  /* Brand Accents (Use Sparingly) */
+  --color-brand-orange: #FF9900;
+  --color-brand-blue: #1E3A5F;
+
+  /* Semantic Colors */
+  --color-success: #059669;
+  --color-error: #DC2626;
+  --color-warning: #D97706;
+  --color-info: #2563EB;
+
+  /* ================================
+   * TYPOGRAPHY
+   * ================================ */
+
+  /* Font Families */
+  --font-headline: 'Playfair Display', serif;
+  --font-body: 'Source Serif 4', serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Desktop Font Sizes */
+  --text-display: 4rem;     /* 64px */
+  --text-h1: 3rem;          /* 48px */
+  --text-h2: 2.25rem;       /* 36px */
+  --text-h3: 1.5rem;        /* 24px */
+  --text-h4: 1.25rem;       /* 20px */
+  --text-body-large: 1.25rem; /* 20px */
+  --text-body: 1.125rem;    /* 18px */
+  --text-small: 0.875rem;   /* 14px */
+  --text-caption: 0.75rem;  /* 12px */
+
+  /* Line Heights */
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  /* ================================
+   * SPACING
+   * ================================ */
+
+  /* Base unit: 8px (0.5rem) */
+  --space-0: 0;
+  --space-0-5: 0.25rem;  /* 4px */
+  --space-1: 0.5rem;     /* 8px */
+  --space-2: 1rem;       /* 16px */
+  --space-3: 1.5rem;     /* 24px */
+  --space-4: 2rem;       /* 32px */
+  --space-6: 3rem;       /* 48px */
+  --space-8: 4rem;       /* 64px */
+  --space-12: 6rem;      /* 96px */
+  --space-16: 8rem;      /* 128px */
+  --space-20: 10rem;     /* 160px */
+  --space-24: 12rem;     /* 192px */
+
+  /* ================================
+   * LAYOUT
+   * ================================ */
+
+  /* Container */
+  --container-max: 80rem;  /* 1280px */
+  --container-padding-mobile: 1rem;
+  --container-padding-tablet: 1.5rem;
+  --container-padding-desktop: 2rem;
+
+  /* Grid */
+  --grid-columns: 12;
+  --grid-gap-mobile: 1.5rem;
+  --grid-gap-desktop: 2rem;
+
+  /* ================================
+   * BORDERS
+   * ================================ */
+
+  /* Border Widths */
+  --border-thin: 1px;
+  --border-medium: 2px;
+  --border-thick: 3px;
+
+  /* Border Radius (ALWAYS ZERO) */
+  --radius-none: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-full: 0;
+
+  /* ================================
+   * SHADOWS (NEVER USED)
+   * ================================ */
+
+  --shadow-none: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+
+  /* ================================
+   * TRANSITIONS (DISABLED)
+   * ================================ */
+
+  --transition-none: none;
+  --duration-instant: 0ms;
+
+  /* ================================
+   * Z-INDEX
+   * ================================ */
+
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-popover: 50;
+  --z-tooltip: 60;
+  --z-notification: 70;
+
+  /* ================================
+   * BREAKPOINTS (for reference)
+   * ================================ */
+
+  /*
+   * xs: 0-639px (mobile)
+   * sm: 640px+ (large mobile)
+   * md: 768px+ (tablet)
+   * lg: 1024px+ (desktop)
+   * xl: 1280px+ (large desktop)
+   * 2xl: 1536px+ (ultra-wide)
+   */
+}
+
+/* ================================
+ * MOBILE OVERRIDES
+ * ================================ */
+
+@media (max-width: 639px) {
+  :root {
+    /* Mobile Font Sizes */
+    --text-display: 2.5rem;    /* 40px */
+    --text-h1: 2rem;           /* 32px */
+    --text-h2: 1.75rem;        /* 28px */
+    --text-h3: 1.25rem;        /* 20px */
+    --text-h4: 1.125rem;       /* 18px */
+    --text-body-large: 1.125rem; /* 18px */
+    --text-body: 1rem;         /* 16px */
+  }
+}
