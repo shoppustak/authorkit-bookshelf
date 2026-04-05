@@ -1096,6 +1096,12 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+@media (min-width: 769px) {
+    .mobile-menu-button {
+        display: none !important;
+    }
+}
+
 @media (max-width: 768px) {
     .hero-stats {
         gap: 30px;
@@ -1153,7 +1159,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .main-nav {
-        display: none;
+        display: none !important;
     }
 }
 
