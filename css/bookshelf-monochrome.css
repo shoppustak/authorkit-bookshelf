@@ -166,6 +166,73 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
+/* Mobile Menu Button - hidden on desktop, shown on mobile */
+.mobile-menu-button {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 0;
+    box-shadow: none;
+    transition: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-button {
+        display: block;
+    }
+}
+
+/* Mobile Menu Icon - black stroke */
+.mobile-menu-icon {
+    width: 24px;
+    height: 24px;
+    stroke: var(--color-black);
+    stroke-width: 2;
+}
+
+/* Mobile Menu Container - dropdown from header */
+.mobile-menu {
+    position: absolute;
+    top: 100%;
+    right: 16px;
+    background: var(--color-white);
+    border: 1px solid var(--color-black);
+    width: 200px;
+    border-radius: 0;
+    box-shadow: none;
+    transition: none;
+    z-index: 100;
+}
+
+.mobile-menu.hidden {
+    display: none;
+}
+
+/* Mobile Navigation Links - full width with subtle borders */
+.mobile-nav-link {
+    display: block;
+    padding: 16px 24px;
+    color: var(--color-black);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-family: var(--font-ui);
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 0;
+    box-shadow: none;
+    transition: none;
+}
+
+.mobile-nav-link:last-child {
+    border-bottom: none;
+}
+
+.mobile-nav-link:hover {
+    background: var(--color-cream);
+}
+
 /* ============================================================================
    Hero Section
    ========================================================================= */
