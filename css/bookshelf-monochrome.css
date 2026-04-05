@@ -126,7 +126,7 @@ h1, h2, h3, h4, h5, h6 {
 .main-nav {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: var(--space-8);
 }
 
 .main-nav a {
