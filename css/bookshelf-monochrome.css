@@ -92,7 +92,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 56px;
+    height: 4rem;
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 1rem;
@@ -108,6 +108,19 @@ h1, h2, h3, h4, h5, h6 {
     height: 40px;
     width: auto;
     aspect-ratio: 346 / 70;
+}
+
+/* Mobile logo sizing */
+@media (max-width: 768px) {
+    .logo img {
+        height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo img {
+        height: 28px;
+    }
 }
 
 .main-nav {
