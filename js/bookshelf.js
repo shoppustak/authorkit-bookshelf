@@ -313,6 +313,19 @@ function formatViewCount(count) {
 }
 
 /**
+ * Sets active navigation link
+ * Adds underline to "Bookshelf" link since we're on bookshelf site
+ */
+function setActiveNavLink() {
+    // Find all Bookshelf links (desktop and mobile)
+    const bookshelfLinks = document.querySelectorAll('.main-nav a[href="/"], .mobile-nav-link[href="/"]');
+
+    bookshelfLinks.forEach(link => {
+        link.style.textDecoration = 'underline';
+    });
+}
+
+/**
  * Mobile Menu Toggle
  * Handles hamburger menu for mobile navigation
  */
@@ -351,8 +364,11 @@ function initMobileMenu() {
     }
 }
 
-// Initialize mobile menu on DOM load
-document.addEventListener('DOMContentLoaded', initMobileMenu);
+// Initialize mobile menu and active link on DOM load
+document.addEventListener('DOMContentLoaded', function() {
+    initMobileMenu();
+    setActiveNavLink();
+});
 
 // Close mobile menu on Escape key
 document.addEventListener('keydown', function(e) {
